@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Knowledge People is a premium social chat platform for connecting, learning, and growing together."
+    />
+    <title>Knowledge People | Connect, Learn and Grow Together</title>
+    <link rel="preconnect" href="https://www.gstatic.com" />
+    <link rel="preconnect" href="https://firestore.googleapis.com" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell" id="appShell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Knowledge People home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" role="img">
+              <defs>
+                <linearGradient id="kpGradient" x1="8" x2="56" y1="8" y2="56" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#53a8ff" />
+                  <stop offset="1" stop-color="#0755ff" />
+                </linearGradient>
+              </defs>
+              <rect width="64" height="64" rx="18" fill="url(#kpGradient)" />
+              <path d="M18 42V18h8v9.9L37.3 18H48L34.8 29.6 49 42H37.7L26 31.6V42h-8Z" fill="white" />
+              <circle cx="48" cy="16" r="5" fill="#030712" opacity=".9" />
+            </svg>
+          </span>
+          <span>
+            <strong>Knowledge People</strong>
+            <small>Connect, Learn and Grow Together</small>
+          </span>
+        </a>
+        <nav class="top-actions" aria-label="Application actions">
+          <button class="ghost-button" id="themeToggle" type="button" aria-pressed="false">Dark mode</button>
+          <button class="ghost-button mobile-only" id="mobileNavToggle" type="button" aria-expanded="false">Menu</button>
+          <button class="primary-button hidden" id="logoutButton" type="button">Log out</button>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" id="authView">
+          <div class="hero-copy">
+            <div class="eyebrow">Premium social learning network</div>
+            <h1>Connect, Learn and Grow Together</h1>
+            <p>
+              Meet curious people, build trusted friendships, and continue conversations with secure private chat powered by Firebase.
+            </p>
+            <div class="feature-pills" aria-label="Platform highlights">
+              <span>Private Chat</span>
+              <span>Friend Search</span>
+              <span>Live Presence</span>
+              <span>Notifications</span>
+            </div>
+          </div>
+
+          <section class="auth-card" aria-labelledby="authTitle">
+            <div class="tabs" role="tablist" aria-label="Authentication options">
+              <button class="tab active" id="loginTab" type="button" role="tab" aria-selected="true">Login</button>
+              <button class="tab" id="signupTab" type="button" role="tab" aria-selected="false">Sign Up</button>
+            </div>
+
+            <form id="authForm" class="stacked-form">
+              <h2 id="authTitle">Welcome back</h2>
+              <p id="authSubtitle">Log in to continue your conversations.</p>
+
+              <label class="signup-only hidden">
+                Full name
+                <input id="displayName" name="displayName" type="text" autocomplete="name" placeholder="Ada Lovelace" />
+              </label>
+
+              <label>
+                Email
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+              </label>
+
+              <label>
+                Password
+                <input id="password" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="••••••••" required />
+              </label>
+
+              <button class="primary-button full-width" id="authSubmit" type="submit">Login</button>
+              <p class="form-status" id="authStatus" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+        </section>
+
+        <section class="dashboard hidden" id="dashboardView" aria-label="Knowledge People dashboard">
+          <aside class="sidebar" id="sidebar">
+            <section class="profile-card panel">
+              <div class="avatar-wrap">
+                <img id="profileAvatar" src="" alt="Your profile picture" />
+                <span class="presence-dot" id="profilePresence" title="Online"></span>
+              </div>
+              <h2 id="profileName">Knowledge Person</h2>
+              <p id="profileEmail">you@example.com</p>
+              <label class="upload-button">
+                Upload profile picture
+                <input id="photoUpload" type="file" accept="image/png,image/jpeg,image/webp" />
+              </label>
+              <p class="form-status" id="profileStatus" role="status" aria-live="polite"></p>
+            </section>
+
+            <section class="panel search-panel">
+              <h3>Find friends</h3>
+              <label class="visually-hidden" for="friendSearch">Search people by name or email</label>
+              <input id="friendSearch" type="search" placeholder="Search name or email" autocomplete="off" />
+              <div class="result-list" id="searchResults" aria-live="polite"></div>
+            </section>
+
+            <section class="panel friend-panel">
+              <h3>Friends</h3>
+              <div class="friend-list" id="friendList" aria-live="polite"></div>
+            </section>
+          </aside>
+
+          <section class="chat panel">
+            <div class="chat-empty" id="emptyChat">
+              <div class="empty-icon" aria-hidden="true">KP</div>
+              <h2>Select a friend to start chatting</h2>
+              <p>Messages appear instantly, unread notifications are tracked, and presence shows who is online.</p>
+            </div>
+
+            <div class="chat-room hidden" id="chatRoom">
+              <header class="chat-header">
+                <div class="friend-summary">
+                  <img id="chatFriendAvatar" src="" alt="Friend profile picture" />
+                  <div>
+                    <h2 id="chatFriendName">Friend</h2>
+                    <p id="chatFriendStatus">Offline</p>
+                  </div>
+                </div>
+                <button class="ghost-button" id="closeChatButton" type="button">Close</button>
+              </header>
+
+              <div class="message-list" id="messageList" aria-live="polite"></div>
+
+              <form class="message-form" id="messageForm">
+                <label class="visually-hidden" for="messageInput">Message</label>
+                <input id="messageInput" type="text" placeholder="Write a message..." autocomplete="off" required />
+                <button class="primary-button" type="submit">Send</button>
+              </form>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <template id="personTemplate">
+      <article class="person-row">
+        <img class="person-avatar" alt="" />
+        <div class="person-meta">
+          <strong></strong>
+          <small></small>
+        </div>
+        <button class="small-button" type="button"></button>
+      </article>
+    </template>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
